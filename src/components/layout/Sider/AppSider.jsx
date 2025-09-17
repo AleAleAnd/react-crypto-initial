@@ -1,9 +1,9 @@
 import Layout from "antd/es/layout/layout"
-import { Card, Statistic, List, Typography, Spin } from "antd"
+import { Card, Statistic, List, Typography, Spin, Tag } from "antd"
 import { ArrowDownOutlined, ArrowUpOutlined } from "@ant-design/icons"
 import { useEffect, useState } from "react"
 import { FakeFetchCrypto, FetchAssets } from "../../../api"
-import { percentDifference } from "../../../utils"
+import { percentDifference, toCapitalize } from "../../../utils"
 
 const siderStyle = {
   padding: "1rem",
@@ -47,7 +47,7 @@ export default function AppSider() {
       {assets.map((asset) => (
         <Card key={asset.id} style={{ marginBottom: "1rem" }}>
           <Statistic
-            title={asset.id}
+            title={toCapitalize(asset.id)}
             value={asset.totalAmount}
             precision={2}
             valueStyle={{ color: asset.grow ? "#3f8600" : "#cf1322" }}
@@ -56,28 +56,40 @@ export default function AppSider() {
           />
 
           <List
-            header={<div>Header</div>}
-            footer={<div>Footer</div>}
+            header={<div></div>}
+            footer={<div></div>}
             bordered
             size="small"
             dataSource={[
               {
                 title: "Total Profit",
                 value: asset.totalProfit.toFixed(2) + " $",
+                isGrow: true,
+                withTag: true,
               },
               {
                 title: "Asset amout",
-                value: asset.amount + " " + asset.id,
-              },
-              {
-                title: "Difference",
-                value: asset.growPercent.toFixed(2) + " %",
+                value: asset.amount + " " + asset.id + "s",
               },
             ]}
             renderItem={(item) => (
               <List.Item>
                 <span>{item.title}</span>
-                <span style={{ color: asset.grow ? "#3f8600" : "#cf1322" }}>
+                <span
+                  style={{
+                    color: item.isGrow
+                      ? asset.grow
+                        ? "#3f8600"
+                        : "#cf1322"
+                      : "#000",
+                  }}
+                >
+                  {item.withTag && (
+                    <Tag color={asset.grow ? "green" : "red"}>
+                      {asset.grow ? "+" : "-"}
+                      {asset.growPercent.toFixed(2) + "%"}
+                    </Tag>
+                  )}
                   {item.value}
                 </span>
               </List.Item>
