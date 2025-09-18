@@ -1,16 +1,10 @@
-import { Flex, Layout } from 'antd'
-import AppHeader from './components/layout/Header/AppHeader'
-import AppSider from './components/layout/Sider/AppSider'
-import AppContent from './components/layout/AppContent/AppContent'
+import { CryptoContextProvider } from "./context/crypto-context"
+import AppLayout from "./components/layout/AppLayout/AppLayout"
 
 export default function App() {
-  return(
-    <Layout>
-      <AppHeader/>
-      <Layout>
-        <AppSider/>
-        <AppContent/>
-      </Layout>
-    </Layout>
+  return (
+    <CryptoContextProvider>
+      <AppLayout />
+    </CryptoContextProvider>
   )
 }
