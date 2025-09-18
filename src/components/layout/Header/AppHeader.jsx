@@ -3,6 +3,7 @@ import { Select, Space, Button, Modal, Drawer } from 'antd'
 import { useCrypto } from '../../../context/crypto-context'
 import { useEffect, useState } from 'react'
 import CoinInfoModal from '../CoinInfoModal'
+import AddAssetForm from '../AddAssetForm'
 
 const headerStyle = {
   width: '100%',
@@ -62,11 +63,23 @@ export default function AppHeader() {
           </Space>
         )}
       />
-      <Button type='primary'>Add asset</Button>
+      <Button type='primary' onClick={() => setDrawer(true)}>
+        Add asset
+      </Button>
 
       <Modal open={modal} onCancel={() => setModal(false)} footer={null}>
         <CoinInfoModal coin={coin} />
       </Modal>
+
+      <Drawer
+        width={500}
+        title='Add asset'
+        closable={{ 'aria-label': 'Close Button' }}
+        onClose={() => setDrawer(false)}
+        open={drawer}
+      >
+        <AddAssetForm />
+      </Drawer>
     </Layout.Header>
   )
 }
