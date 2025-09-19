@@ -1,3 +1,35 @@
+import { Table } from 'antd'
+import { useCrypto } from '../../context/crypto-context'
+const columns = [
+  {
+    title: 'Name',
+    dataIndex: 'name',
+    sorter: (a, b) => a.name.length - b.name.length,
+    sortDirections: ['descend'],
+  },
+  {
+    title: 'Price, $',
+    dataIndex: 'price',
+    sortDirections: ['descend'],
+    sorter: (a, b) => a.price - b.price,
+  },
+  {
+    title: 'Amount',
+    dataIndex: 'amount',
+    sorter: (a, b) => a.amount - b.amount,
+    sortDirections: ['descend'],
+  },
+]
+
 export default function AssetsTable() {
-  return <div>555</div>
+  const { assets } = useCrypto()
+
+  const data = assets.map((a) => ({
+    key: a.id,
+    name: a.name,
+    price: a.price,
+    amount: a.amount,
+  }))
+
+  return <Table pagination={false} columns={columns} dataSource={data} />
 }
